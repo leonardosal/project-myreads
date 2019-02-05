@@ -9,7 +9,6 @@ const safeBook = (booksSearched, booksCategorized) => {
       Object.assign({}, book)
   }).map((book) => {
     const bookSearch = booksCategorized.find((item) => item.id === book.id)
-    console.log(bookSearch)
     return !bookSearch ?
       Object.assign(book, { shelf: 'none' }) :
       Object.assign({}, bookSearch)

@@ -11,7 +11,7 @@ class BooksApp extends Component {
   }
 
   async componentDidMount() {
-    const local = localStorage.getItem('books')
+    const local = localStorage.getItem('booksList')
     if (!local) {
       const books = await BooksAPI.getAll()
 
@@ -19,7 +19,7 @@ class BooksApp extends Component {
         this.setState({
           books
         })
-        localStorage.setItem('books', JSON.stringify(books))
+        localStorage.setItem('booksList', JSON.stringify(books))
       }
 
       return
@@ -37,7 +37,7 @@ class BooksApp extends Component {
       books: [...booksListUpdated, bookUpdated]
     }, () => {
       const { books } = this.state
-      localStorage.setItem('books', JSON.stringify(books))
+      localStorage.setItem('booksList', JSON.stringify(books))
     })
   }
   render() {
