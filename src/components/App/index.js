@@ -11,20 +11,20 @@ class BooksApp extends Component {
   }
 
   async componentDidMount() {
-    const local = localStorage.getItem('state')
+    const local = localStorage.getItem('books')
     if (!local) {
-      const response = await BooksAPI.getAll()
-      const state = {
-        books: response,
+      const books = await BooksAPI.getAll()
+
+      if(books) {
+        this.setState({
+          books
+        })
+        localStorage.setItem('books', JSON.stringify(books))
       }
-      this.setState({
-        ...this.state,
-        ...state
-      })
-      localStorage.setItem('state', JSON.stringify(state))
+
       return
     }
-    this.setState({ books: JSON.parse(local).books })
+    this.setState({ books: JSON.parse(local) })
   }
 
   changeList = (selectBook, destinationShelf) => {
@@ -33,15 +33,11 @@ class BooksApp extends Component {
 
     const bookUpdated = Object.assign(selectBook, { shelf: destinationShelf })
 
-    const state = {
-      books: [...booksListUpdated, bookUpdated]
-    }
     this.setState({
-      ...this.state,
-      ...state
+      books: [...booksListUpdated, bookUpdated]
     }, () => {
       const { books } = this.state
-      localStorage.setItem('state', JSON.stringify(books))
+      localStorage.setItem('books', JSON.stringify(books))
     })
   }
   render() {
